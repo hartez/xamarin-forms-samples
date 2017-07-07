@@ -14,6 +14,12 @@ namespace CustomRenderer
 		{
 			await Navigation.PushAsync (new CameraPage ());
 		}
+
+		private void GcButton_OnClicked(object sender, EventArgs e)
+		{
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+		}
 	}
 }
 

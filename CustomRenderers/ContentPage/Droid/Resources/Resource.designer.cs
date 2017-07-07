@@ -26,7 +26,6 @@ namespace CustomRenderer.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::CustomRenderer.Droid.Resource.Attribute.actionBarSize;
 		}
 		
 		public partial class Attribute

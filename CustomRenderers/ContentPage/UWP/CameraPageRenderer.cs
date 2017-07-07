@@ -3,6 +3,7 @@ using CustomRenderer.UWP;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
@@ -540,6 +541,20 @@ namespace CustomRenderer.UWP
             await CleanupUIAsync();
         }
 
-        #endregion
-    }
+		#endregion
+
+		private static int s_count;
+
+		~CameraPageRenderer()
+		{
+			Interlocked.Decrement(ref s_count);
+			Debug.WriteLine($">>>>> CameraPageRenderer ~CameraPageRenderer 212: {s_count}");
+		}
+
+		public CameraPageRenderer()
+		{
+			Interlocked.Increment(ref s_count);
+			Debug.WriteLine($">>>>> CameraPageRenderer CameraPageRenderer 219: {s_count}");
+		}
+	}
 }

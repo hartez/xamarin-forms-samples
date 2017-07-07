@@ -6,6 +6,7 @@
 	<ContentPage.Content>
 		<StackLayout>
 			<Button x:Name="takePhotoButton" Text="Take Photos" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Clicked="OnTakePhotoButtonClicked" />
+            <Button x:Name="gcButton" Text="Collect" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Clicked="GcButton_OnClicked" />
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

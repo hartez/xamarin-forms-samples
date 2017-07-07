@@ -4,6 +4,9 @@ using CustomRenderer;
 using CustomRenderer.iOS;
 using Foundation;
 using System;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -21,6 +24,15 @@ namespace CustomRenderer.iOS
 		UIButton toggleCameraButton;
 		UIButton toggleFlashButton;
 
+		// This is the only reference to this instance; if it's collected by the GC, then this
+		// CameraPageRenderer has also been collected
+		private GCCanary _canary;
+
+		public CameraPageRenderer()
+		{
+			_canary = new GCCanary();
+		}
+
 		protected override void OnElementChanged (VisualElementChangedEventArgs e)
 		{
 			base.OnElementChanged (e);
@@ -30,10 +42,10 @@ namespace CustomRenderer.iOS
 			}
 
 			try {
-				SetupUserInterface ();
-				SetupEventHandlers ();
-				SetupLiveCameraStream ();
-				AuthorizeCameraUse ();
+				SetupUserInterface();
+				SetupEventHandlers();
+				SetupLiveCameraStream();
+				AuthorizeCameraUse();
 			} catch (Exception ex) {
 				System.Diagnostics.Debug.WriteLine (@"			ERROR: ", ex.Message);
 			}
@@ -201,6 +213,14 @@ namespace CustomRenderer.iOS
 			if (authorizationStatus != AVAuthorizationStatus.Authorized) {
 				await AVCaptureDevice.RequestAccessForMediaTypeAsync (AVMediaType.Video);
 			}
+		}
+
+		protected override async void Dispose(bool disposing)
+		{
+			base.Dispose(disposing);
+
+			await Task.Delay(1000); // Give it a second ...
+			Debug.WriteLine($">>>>> CameraPageRenderer iOS handle is {Handle}; a handle of zero means the NSObject's link to this managed class has been released.");
 		}
 	}
 }
