@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Todo.Views.TodoListPage" Title="Todo">
-<ContentPage.ToolbarItems>
+	<ContentPage.ToolbarItems>
 		<ToolbarItem Clicked="OnItemAdded">
 			<ToolbarItem.Icon>
 				<OnPlatform x:TypeArguments="FileImageSource">
@@ -17,16 +17,30 @@
 			</ToolbarItem.Text>
 		</ToolbarItem>
 	</ContentPage.ToolbarItems>
-	<ListView x:Name="listView" Margin="20" ItemSelected="OnListItemSelected">
-		<ListView.ItemTemplate>
-			<DataTemplate>
-				<ViewCell>
-					<StackLayout Margin="20,0,0,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-						<Label Text="{Binding Name}" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" />
-						<Image Source="check.png" HorizontalOptions="End" IsVisible="{Binding Done}" />
-					</StackLayout>
-				</ViewCell>
-			</DataTemplate>
-		</ListView.ItemTemplate>
-	</ListView>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="50"></RowDefinition>
+		</Grid.RowDefinitions>
+
+		<ListView x:Name="listView" Margin="20" ItemSelected="OnListItemSelected">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<StackLayout Margin="20,0,0,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+							<Label Text="{Binding Name}" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" />
+							<Image Source="check.png" HorizontalOptions="End" IsVisible="{Binding Done}" />
+						</StackLayout>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+		
+		<Label Margin="10" Text="Progress:" Grid.Row="1"></Label>
+		<ProgressBar x:Name="ListProgress" Margin="10" Grid.Row="2" HorizontalOptions="Fill" VerticalOptions="Fill" 
+					Progress="{Binding Value}"
+					ProgressColor="{Binding Color}"
+					BackgroundColor="{Binding BackgroundColor}"/>
+	</Grid>
 </ContentPage>

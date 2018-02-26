@@ -24,7 +24,14 @@ namespace Todo.Views
 
 			// Reset the 'resume' id, since we just want to re-start here
 			((App)App.Current).ResumeAtTodoId = -1;
-			listView.ItemsSource = await App.Database.GetItemsAsync();
+
+			var items = await App.Database.GetItemsAsync();
+
+			var done = items.Count(item => item.Done);
+			var total = items.Count();
+
+			ListProgress.BindingContext = new Progress(total, done);
+			listView.ItemsSource = items;
 		}
 
 		async void OnItemAdded(object sender, EventArgs e)
